@@ -86,20 +86,22 @@ function changeVolume(e) {
   lastVolume = volume;
 }
 
+// Set volume properties
+function volumeSet(vol, styleWidth, classAdd, attributeSet) {
+  video.volume = vol;
+  volumeBar.style.width = styleWidth;
+  volumeIcon.classList.add('fas', classAdd);
+  volumeIcon.setAttribute('title', attributeSet);
+}
+
 // Mute/Unmute
 function toggleMute() {
   volumeIcon.className = '';
   if (video.volume) {
     lastVolume = video.volume;
-    video.volume = 0;
-    volumeBar.style.width = 0;
-    volumeIcon.classList.add('fas', 'fa-volume-mute');
-    volumeIcon.setAttribute('title', 'Unmute');
+    volumeSet(0, 0, 'fa-volume-mute', 'Unmute');
   } else {
-    video.volume = lastVolume;
-    volumeBar.style.width = `${lastVolume * 100}%`;
-    volumeIcon.classList.add('fas', 'fa-volume-up');
-    volumeIcon.setAttribute('title', 'Mute');
+    volumeSet(lastVolume, `${lastVolume * 100}%`, 'fa-volume-up', 'Mute');
   }
 }
 
@@ -111,6 +113,7 @@ function changeSpeed() {
 
 // Fullscreen ------------------------------- //
 
+/* View in fullscreen */
 function openFullscreen(elem) {
   if (elem.requestFullscreen) {
     elem.requestFullscreen();
@@ -142,11 +145,7 @@ let fullscreen = false;
 
 // Toggle Fullscreen
 function toggleFullscreen() {
-  if (!fullscreen) {
-    openFullscreen(player);
-  } else {
-    closeFullscreen();
-  }
+  !fullscreen ? openFullscreen(player) : closeFullscreen();
   fullscreen = !fullscreen;
 }
 
